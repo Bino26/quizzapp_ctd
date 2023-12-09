@@ -114,7 +114,7 @@ const dropAllResult = async (req, res) => {
   try {
     if (role !== "admin") {
       return res.status(403).json({
-        message: "Only Admin can delete role",
+        message: "Only Admin can delete results",
       });
     }
     await reportModel.deleteMany();
