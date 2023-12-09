@@ -27,6 +27,13 @@ const signupDataValidate = require("../middlewares/signupDataValidate");
 const loginDataValidate = require("../middlewares/loginDataValidate");
 const authenticateUser = require("../middlewares/authenticateUser");
 const adminRole = require("../middlewares/adminrole");
+const {
+  getAllResult,
+  storeResult,
+  dropAllResult,
+  dropUserResult,
+  userResult,
+} = require("../controllers/reportController");
 const router = express.Router();
 
 //user
@@ -62,5 +69,19 @@ router
 
 //question per category
 router.route("/question/category").get(authenticateUser, getQuestion);
+
+//reports
+/*** Reports for User ***/
+router
+  .route("/user-result")
+  .post(authenticateUser, storeResult)
+  .get(authenticateUser, userResult)
+  .delete(authenticateUser, dropUserResult);
+
+/*** Reports for Admin ***/
+router
+  .route("/results")
+  .get(authenticateUser, getAllResult)
+  .delete(authenticateUser, dropAllResult);
 
 module.exports = router;
