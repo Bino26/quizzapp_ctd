@@ -33,6 +33,8 @@ const {
   dropAllResult,
   dropUserResult,
   userResult,
+  getMaxScore,
+  getLastScore,
 } = require("../controllers/reportController");
 const router = express.Router();
 
@@ -77,6 +79,10 @@ router
   .post(authenticateUser, storeResult)
   .get(authenticateUser, userResult)
   .delete(authenticateUser, dropUserResult);
+
+router.get("/maxscore", authenticateUser, getMaxScore);
+
+router.get("/lastscore", authenticateUser, getLastScore);
 
 /*** Reports for Admin ***/
 router

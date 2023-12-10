@@ -1,4 +1,5 @@
 const reportModel = require("../models/reportSchema");
+const mongoose = require("mongoose");
 
 /******************************************************************
  * @storeResult
@@ -99,7 +100,11 @@ const getAllResult = async (req, res) => {
         message: "Only Admin can get all results",
       });
     }
-    await reportModel.find();
+    const results = await reportModel.find();
+    res.status(200).json({
+      success: true,
+      results: results,
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -129,6 +134,43 @@ const dropAllResult = async (req, res) => {
     });
   }
 };
+/*Controller to get the max score from the 'reports' collection*/
+async function getMaxScore(req, res) {
+  const { userId } = req.user;
+  try {
+    const maxScore = await reportModel.aggregate([
+      {
+        $match: { userId: new mongoose.Types.ObjectId(userId) },
+      },
+      {
+        $group: {
+          _id: "$quizId",
+          maxScore: { $max: "$points" },
+        },
+      },
+    ]);
+
+    res.json(maxScore);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+// Controller to get the last score from the 'reports' collection
+async function getLastScore(req, res) {
+  const { userId } = req.user;
+  try {
+    const lastScore = await reportModel
+      .findOne({ userId })
+      .sort({ timestamp: -1 })
+      .select("points");
+
+    res.json(lastScore);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
 
 module.exports = {
   storeResult,
@@ -137,4 +179,6 @@ module.exports = {
   getAllResult,
   storeResult,
   dropAllResult,
+  getMaxScore,
+  getLastScore,
 };

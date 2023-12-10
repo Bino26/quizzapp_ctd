@@ -35,10 +35,19 @@ const reportSchema = new Schema({
     enum: ["passed", "failed"],
     default: "",
   },
+  lastScore: {
+    type: Object,
+    default: 0,
+  },
+  bestScore: {
+    type: Object,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  timestamp: { type: Date, default: Date.now },
 });
 
 const reportModel = mongoose.model("Reports", reportSchema);
