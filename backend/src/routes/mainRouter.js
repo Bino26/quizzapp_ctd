@@ -45,8 +45,10 @@ const router = express.Router();
 
 //user
 router.post("/signup", signupDataValidate, signUp);
-router.route("/login").post(loginDataValidate, logIn);
-// .get(authenticateUser, getUser);
+router
+  .route("/login")
+  .post(loginDataValidate, logIn)
+  .get(authenticateUser, getUser);
 router.get("/logout", logOut);
 router.put("/updateuser", authenticateUser, updateUser);
 router.delete("/deleteuser", authenticateUser, deleteUser);
