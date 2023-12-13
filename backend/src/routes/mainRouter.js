@@ -26,7 +26,7 @@ const {
 const signupDataValidate = require("../middlewares/signupDataValidate");
 const loginDataValidate = require("../middlewares/loginDataValidate");
 const authenticateUser = require("../middlewares/authenticateUser");
-const adminRole = require("../middlewares/adminrole");
+const adminRole = require("../middlewares/adminRole");
 const {
   getAllResult,
   storeResult,
