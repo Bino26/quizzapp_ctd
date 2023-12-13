@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const connectToDb = require("./db/db");
-// const favicon = require("express-favicon");
+const favicon = require("express-favicon");
 // const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 
