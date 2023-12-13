@@ -38,7 +38,7 @@ const userSchema = new Schema({
   favorites: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "quizzes",
+      ref: "Questions",
     },
   ],
   createdAt: {

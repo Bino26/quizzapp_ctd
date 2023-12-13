@@ -17,7 +17,15 @@ const addFavoriteQuiz = async (req, res) => {
 
     await user.save();
 
-    res.json({
+    //update cookies
+    const token = user.jwtToken();
+    const cookiesOptions = {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    };
+    res.cookie("token", token, cookiesOptions);
+
+    res.status(200).json({
       success: true,
       message: "Quiz added from favorites successfully",
     });
@@ -25,25 +33,6 @@ const addFavoriteQuiz = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-// const getUserFavorites = async (req, res) => {
-//   const { userId } = req.user;
-
-//   try {
-//     const user = await userModel.findOne({ userId });
-
-//     if (!user) {
-//       return res.status(404).json({ error: "User not found" });
-//     }
-
-//     // Récupérez les détails des quizzes favoris en utilisant les références
-//     const favoritesDetails = await Quiz.find({ _id: { $in: user.favorites } });
-
-//     res.json(favoritesDetails);
-//   } catch (error) {
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 
 const getUserFavorites = async (req, res) => {
   const { userId } = req.user;
@@ -77,6 +66,14 @@ const removeFavoriteQuiz = async (req, res) => {
     user.favorites.pull(quizId);
 
     await user.save();
+
+    //update cookies
+    const token = user.jwtToken();
+    const cookiesOptions = {
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    };
+    res.cookie("token", token, cookiesOptions);
 
     res.status(200).json({
       success: true,

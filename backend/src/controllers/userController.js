@@ -85,7 +85,7 @@ const logIn = async (req, res) => {
 const getUser = async (req, res) => {
   const { userId } = req.user;
   try {
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(userId).populate("favorites");
     return res.status(200).json({
       success: true,
       message: "User data got  sucessfully",
