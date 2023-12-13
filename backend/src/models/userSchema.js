@@ -35,6 +35,12 @@ const userSchema = new Schema({
     enum: ["admin", "user"],
     default: "user",
   },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "quizzes",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -65,6 +71,7 @@ userSchema.methods = {
         lastname: this.lastname,
         email: this.email,
         role: this.role,
+        favorites: this.favorites,
         avatarURL: this.avatarURL,
       },
       process.env.SECRET,

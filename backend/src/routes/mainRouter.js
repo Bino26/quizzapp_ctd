@@ -36,6 +36,11 @@ const {
   getMaxScore,
   getLastScore,
 } = require("../controllers/reportController");
+const {
+  getUserFavorites,
+  addFavoriteQuiz,
+  removeFavoriteQuiz,
+} = require("../controllers/favoriteController");
 const router = express.Router();
 
 //user
@@ -89,5 +94,10 @@ router
   .route("/results")
   .get(authenticateUser, getAllResult)
   .delete(authenticateUser, dropAllResult);
+
+//Favorites
+router.get("/favorites", authenticateUser, getUserFavorites);
+router.post("/favorites/add", authenticateUser, addFavoriteQuiz);
+router.post("/favorites/remove", authenticateUser, removeFavoriteQuiz);
 
 module.exports = router;
