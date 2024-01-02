@@ -1,6 +1,6 @@
-const title = " Basics";
+const title = "Javascript";
 const category = "javascript";
-const level = "middle";
+const level = "advanced";
 const label = ["frontend", "backend"];
 
 const questions = [

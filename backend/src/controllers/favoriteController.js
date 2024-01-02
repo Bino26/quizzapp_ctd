@@ -1,5 +1,14 @@
 const userModel = require("../models/userSchema");
 
+/******************************************************************************
+ * @addFavoriteQuiz
+ * @route /api/v1/favorites/add
+ * @method POST
+ * @description add favorite quiz from the user in the favorites array in database
+ * @body quizId
+ * @returns favorites array
+ *******************************************************************************/
+
 //Add quiz as favorite
 const addFavoriteQuiz = async (req, res) => {
   const { userId } = req.user;
@@ -33,6 +42,14 @@ const addFavoriteQuiz = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+/******************************************************************************
+ * @getUserFavoriteQuiz
+ * @route /api/v1/favorites
+ * @method GET
+ * @description display favorites quizz from the user
+ * @body
+ * @returns favorites array
+ *******************************************************************************/
 
 const getUserFavorites = async (req, res) => {
   const { userId } = req.user;
@@ -50,6 +67,14 @@ const getUserFavorites = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+/*************************************************************************************
+ * @removeFavoriteQuiz
+ * @route /api/v1/favorites/remove
+ * @method POST
+ * @description remove favorite quiz from the user in the favorites array in database
+ * @body quizId
+ * @returns message
+ ************************************************************************************/
 
 const removeFavoriteQuiz = async (req, res) => {
   const { userId } = req.user;

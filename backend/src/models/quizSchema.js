@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const questionSchema = new Schema({
+const quizSchema = new Schema({
   title: {
     type: String,
     required: [true, "title is required"],
@@ -10,20 +10,19 @@ const questionSchema = new Schema({
   },
   category: {
     type: String,
+    required: [true, "category is required"],
     enum: ["javascript", "react", "nodejs", "html", "css"],
   },
   level: {
     type: String,
-    enum: ["basic", "middle", "advanced"],
+    enum: ["basic", "intermediate", "advanced"],
   },
-  label: {
-    type: String,
-    enum: ["frontend", "backend"],
-  },
-  // isFavorite: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  label: [
+    {
+      type: String,
+      enum: ["frontend", "backend"],
+    },
+  ],
 
   questions: [
     {
@@ -39,18 +38,31 @@ const questionSchema = new Schema({
         type: String,
         required: true,
       },
-      isMultiChoice: {
-        type: Boolean,
-        required: true,
-        default: false,
+      type: {
+        type: String,
+        enum: ["radio", "checkbox"],
+        default: "radio",
+      },
+      code: {
+        type: String,
+        required: false,
+      },
+      resources: {
+        type: String,
+        required: false,
       },
     },
   ],
+
   createdAt: {
     type: Date,
     default: Date.now(),
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
 });
 
-const questionModel = mongoose.model("Questions", questionSchema);
-module.exports = questionModel;
+const quizModel = mongoose.model("Quiz", quizSchema);
+module.exports = quizModel;

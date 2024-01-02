@@ -6,7 +6,6 @@ const noteSchema = new Schema({
     type: String,
     required: [true, "Title is required"],
     minLength: [5, "Title must be at least 5 characters"],
-    maxLength: [50, "Title must be less than 50 characters"],
   },
   note: {
     type: String,
@@ -14,8 +13,9 @@ const noteSchema = new Schema({
     minLength: [5, "Note must be at least 5 characters"],
   },
   createdBy: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: [true, "User Id is required"],
   },
   createdAt: {
     type: Date,

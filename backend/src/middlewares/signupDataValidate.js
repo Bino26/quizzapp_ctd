@@ -10,6 +10,7 @@ const signupDataValidate = (req, res, next) => {
         "The following fields are required: firstname,lastname, email, password",
     });
   }
+
   //verify if email is valid
   const validEmail = emailValidator.validate(email);
   if (!validEmail) {

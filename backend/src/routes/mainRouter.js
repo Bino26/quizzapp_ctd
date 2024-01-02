@@ -1,49 +1,43 @@
 const express = require("express");
 const {
+  getAllQuiz,
+  insertQuiz,
+  getQuizPerChoice,
+  deleteAllQuiz,
+} = require("../controllers/quizController");
+const {
   signUp,
   logIn,
-  logOut,
   getUser,
-  getAdmin,
+  logOut,
   updateUser,
   deleteUser,
-  forgotPassword,
-  resetPassword,
 } = require("../controllers/userController");
+const signupDataValidate = require("../middlewares/signupDataValidate");
+const loginDataValidate = require("../middlewares/loginDataValidate");
+const authenticateUser = require("../middlewares/authenticateUser");
+const {
+  removeFavoriteQuiz,
+  addFavoriteQuiz,
+  getUserFavorites,
+} = require("../controllers/favoriteController");
+const {
+  createAttempt,
+  getUserAttempts,
+  getAllAttempts,
+  deleteAttempt,
+} = require("../controllers/attemptController");
 const {
   addNote,
   getNotes,
   updateNote,
-  deleteNote,
-  deleteAllNote,
+  deleteManyNotes,
 } = require("../controllers/noteController");
-const {
-  getQuestions,
-  insertQuestions,
-  dropQuestions,
-  getQuestion,
-} = require("../controllers/questionController");
-const signupDataValidate = require("../middlewares/signupDataValidate");
-const loginDataValidate = require("../middlewares/loginDataValidate");
-const authenticateUser = require("../middlewares/authenticateUser");
-const adminRole = require("../middlewares/adminRole");
-const {
-  getAllResult,
-  storeResult,
-  dropAllResult,
-  dropUserResult,
-  userResult,
-  getMaxScore,
-  getLastScore,
-} = require("../controllers/reportController");
-const {
-  getUserFavorites,
-  addFavoriteQuiz,
-  removeFavoriteQuiz,
-} = require("../controllers/favoriteController");
+
 const router = express.Router();
 
 //user
+
 router.post("/signup", signupDataValidate, signUp);
 router
   .route("/login")
@@ -52,52 +46,39 @@ router
 router.get("/logout", logOut);
 router.put("/updateuser", authenticateUser, updateUser);
 router.delete("/deleteuser", authenticateUser, deleteUser);
-router.post("/forgotpassword", forgotPassword);
-router.post("/resetpassword/:token", resetPassword);
-
-//admin
-router.put("/admin", authenticateUser, adminRole, getAdmin);
-
-//notes
-
-router.post("/addnote", authenticateUser, addNote);
-router.get("/getnotes", authenticateUser, getNotes);
-router.put("/updatenote", authenticateUser, updateNote);
-router.delete("/deletenote", authenticateUser, deleteNote);
-router.delete("/deleteallnote", authenticateUser, deleteAllNote);
 
 //questions
 
 router
-  .route("/questions")
-  .get(authenticateUser, getQuestions)
-  .post(authenticateUser, insertQuestions)
-  .delete(authenticateUser, dropQuestions);
+  .route("/quiz")
+  .get(authenticateUser, getAllQuiz)
+  .post(authenticateUser, insertQuiz)
+  .delete(authenticateUser, deleteAllQuiz);
 
 //question per category
-router.route("/question/category").get(authenticateUser, getQuestion);
-
-//reports
-/*** Reports for User ***/
-router
-  .route("/user-result")
-  .post(authenticateUser, storeResult)
-  .get(authenticateUser, userResult)
-  .delete(authenticateUser, dropUserResult);
-
-router.get("/maxscore", authenticateUser, getMaxScore);
-
-router.get("/lastscore", authenticateUser, getLastScore);
-
-/*** Reports for Admin ***/
-router
-  .route("/results")
-  .get(authenticateUser, getAllResult)
-  .delete(authenticateUser, dropAllResult);
+router.route("/quiz/category").get(authenticateUser, getQuizPerChoice);
 
 //Favorites
 router.get("/favorites", authenticateUser, getUserFavorites);
 router.post("/favorites/add", authenticateUser, addFavoriteQuiz);
 router.post("/favorites/remove", authenticateUser, removeFavoriteQuiz);
+
+// user progress
+router
+  .route("/progress/user", authenticateUser)
+  .post(createAttempt)
+  .get(getUserAttempts);
+
+// for testing only
+router.route("/progress").get(getAllAttempts);
+router.route("/progress/:id").delete(deleteAttempt);
+
+//notes
+router.post("/note", authenticateUser, addNote);
+router.put("/note/:id", authenticateUser, updateNote);
+router
+  .route("/notes")
+  .get(authenticateUser, getNotes)
+  .delete(authenticateUser, deleteManyNotes);
 
 module.exports = router;
