@@ -1,0 +1,46 @@
+.homeBackground {
+  height: 100vh;
+  width: 100%;
+  background-image: url('../../assets/images/background-home.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoImage {
+  width: 311px;
+  height: 139px;
+}
+
+.quizContainer {
+  display: flex;
+  justify-content: initial;
+  width: 100%;
+}
+
+.quizSectionImage {
+  background-image: url('../../assets/images/quiz_section.webp');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+}
+
+.notesSectionImage {
+  background-image: url('../../assets/images/notes_section.webp');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .logoImage {
+    width: 220px;
+  }
+}
