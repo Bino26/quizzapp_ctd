@@ -55,7 +55,7 @@ To run this project, you will need to create an .env file and add the following 
 
 ```
 PORT=<server-port>
-MONGO_URL=<mongodb-connection-string>
+MONGO_URI=<mongodb-connection-string>
 CLIENT_URL=<client-side-url>
 SECRET=<jwt-secret-key>
 
